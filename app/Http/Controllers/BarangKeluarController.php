@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Barang;
+use App\Models\BarangKeluar as ModelsBarangKeluar;
 use Illuminate\Http\Request;
 
-class BarangController extends Controller
+class BarangKeluarController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $barang = Barang::all();
-        return view('pages.barang', compact('barang'));
+        $barang = ModelsBarangKeluar::all();
+        return view('pages.barangkeluar', compact('barang'));
     }
 
     /**
@@ -21,7 +21,7 @@ class BarangController extends Controller
      */
     public function create()
     {
-        return view('barang.create');
+        //
     }
 
     /**
@@ -61,9 +61,6 @@ class BarangController extends Controller
      */
     public function destroy(string $id)
     {
-        $barang = Barang::findOrFail($id);
-        $barang->delete();
-
-        return redirect()->route('barang.index')->with('success', 'Barang Berhasil Dihapus');
+        //
     }
 }
