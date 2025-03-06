@@ -57,7 +57,7 @@
             </g>
           </svg>
         </span>
-        <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span>
+        <span class="app-brand-text menu-text fw-bolder ms-2">STOK</span>
       </a>
 
       <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -69,21 +69,21 @@
 
     <ul class="menu-inner py-1">
       <!-- Dashboard -->
-      <li class="menu-item active">
+      <li class="menu-item {{ Route::is('barang.index') ? 'active' : '' }}">
         <a href="/barang" class="menu-link">
           <i class="menu-icon tf-icons bx bx-home-circle"></i>
           <div data-i18n="Analytics">Daftar Barang</div>
         </a>
       </li>
 
-      <li class="menu-item">
+      <li class="menu-item {{ Route::is('barang-masuk') ? 'active' : '' }}">
         <a href="/barang-masuk" class="menu-link">
           <i class="menu-icon tf-icons bx bx-collection"></i>
           <div data-i18n="Analytics">Barang Masuk</div>
         </a>
       </li>
 
-      <li class="menu-item">
+      <li class="menu-item {{ Route::is('barang-keluar') ? 'active' : '' }}">
         <a href="/barang-keluar" class="menu-link">
           <i class="menu-icon tf-icons bx bx-cube-alt"></i>
           <div data-i18n="Analytics">Barang Keluar</div>
