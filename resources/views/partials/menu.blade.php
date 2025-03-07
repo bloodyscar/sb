@@ -69,9 +69,16 @@
 
     <ul class="menu-inner py-1">
       <!-- Dashboard -->
+      <li class="menu-item {{ Route::is('dashboard') ? 'active' : '' }}">
+        <a href="/dashboard" class="menu-link">
+          <i class="menu-icon tf-icons bx bx-home-circle"></i>
+          <div data-i18n="Analytics">Dashboard</div>
+        </a>
+      </li>
+
       <li class="menu-item {{ Route::is('barang.index') ? 'active' : '' }}">
         <a href="/barang" class="menu-link">
-          <i class="menu-icon tf-icons bx bx-home-circle"></i>
+          <i class="menu-icon tf-icons  bx bx-dock-top"></i>
           <div data-i18n="Analytics">Daftar Barang</div>
         </a>
       </li>

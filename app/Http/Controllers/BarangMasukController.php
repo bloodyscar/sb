@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\BarangMasuk as ModelsBarangMasuk;
 use Illuminate\Http\Request;
 
@@ -12,8 +13,9 @@ class BarangMasukController extends Controller
      */
     public function index()
     {
-        $barang = ModelsBarangMasuk::all();
-        return view('pages.barangmasuk', compact('barang'));
+        $barangMasuk = ModelsBarangMasuk::all();
+        $barang = Barang::all();
+        return view('pages.barangmasuk', compact('barang', 'barangMasuk'));
     }
 
     /**
@@ -29,7 +31,15 @@ class BarangMasukController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'kode_barang' => 'required',
+            'stok' => 'required|numeric',
+        ]);
+
+    
+        $barangMasuk = ModelsBarangMasuk::create($request->all());
+        
+        return redirect()->back()->with('success', 'Barang berhasil ditambahkan!');
     }
 
     /**

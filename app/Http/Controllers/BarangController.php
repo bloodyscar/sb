@@ -29,7 +29,14 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'kode_barang' => 'required',
+            'nama_barang' => 'required',
+            'stok' => 'required|numeric',
+        ]);
+    
+        Barang::create($request->all());
+        return redirect()->back()->with('success', 'Barang berhasil ditambahkan!');
     }
 
     /**
@@ -50,20 +57,27 @@ class BarangController extends Controller
 
     /**
      * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+        */
+        public function update(Request $request, string $id)
+        {
+            $barang = Barang::findOrFail($id);
+            $barang->update([
+                'kode_barang'         => $request->kode_barang,
+                'nama_barang'   => $request->nama_barang,
+                'stok'         => $request->stok,
+                'deskripsi'         => $request->deskripsi
+            ]);
+
+            return redirect()->back()->with('success', 'Barang berhasil diubah!');
+        }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        $barang = Barang::findOrFail($id);
-        $barang->delete();
-
-        return redirect()->route('barang.index')->with('success', 'Barang Berhasil Dihapus');
+        Barang::destroy($id);
+        return response()->json(['success' => true]);
+        
     }
 }
