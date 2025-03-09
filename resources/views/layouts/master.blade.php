@@ -80,6 +80,8 @@
         <!-- Layout container -->
     <div class="layout-page">
           <!-- Navbar -->
+
+          @include('partials.navbar')
         
 
 
@@ -88,13 +90,8 @@
 
           <!-- Content wrapper -->
           <div class="content-wrapper">
-            <!-- Content -->
-            {{-- yield content --}}
             @yield('content')
-            <!-- / Content -->
 
-
-            <div class="content-backdrop fade"></div>
           </div>
           <!-- Content wrapper -->
         </div>
@@ -130,18 +127,6 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 
-    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
-
-    <script>
-      $(document).ready(function () {
-        $('#myTable').DataTable({
-          "columnDefs": [
-            { "className": "text-center", "targets": "_all" } // Apply center to all columns
-          ]
-        });
-      });
-    </script>
-    
     @yield('script')
   </body>
 </html>

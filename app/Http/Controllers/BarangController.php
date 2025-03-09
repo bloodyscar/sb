@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use Illuminate\Http\Request;
+use App\Exports\BarangExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BarangController extends Controller
 {
@@ -14,6 +16,11 @@ class BarangController extends Controller
     {
         $barang = Barang::all();
         return view('pages.barang', compact('barang'));
+    }
+
+    public function export()
+    {
+        return Excel::download(new BarangExport, 'barang_' . date('Y-m-d_H-i-s') . '.xlsx');
     }
 
     /**
@@ -32,9 +39,12 @@ class BarangController extends Controller
         $request->validate([
             'kode_barang' => 'required',
             'nama_barang' => 'required',
-            'stok' => 'required|numeric',
         ]);
     
+        $request->merge([
+            'kode_barang' => strtoupper($request->kode_barang),
+        ]);
+        
         Barang::create($request->all());
         return redirect()->back()->with('success', 'Barang berhasil ditambahkan!');
     }
@@ -60,6 +70,10 @@ class BarangController extends Controller
         */
         public function update(Request $request, string $id)
         {
+            $request->validate([
+                'stok' => 'required|numeric|min:0',  // Ensure stok is a number and greater than or equal to 0
+            ]);
+            
             $barang = Barang::findOrFail($id);
             $barang->update([
                 'kode_barang'         => $request->kode_barang,

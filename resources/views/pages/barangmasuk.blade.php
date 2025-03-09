@@ -5,7 +5,7 @@
   <div class="row">
 
     <div class="col-md-4">
-      <h5 class="card-header">Barang Masuk</h5>
+      <h3 class="">Barang Masuk</h3>
 
               <!-- Button trigger modal -->
       <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -22,13 +22,13 @@
                 <th>Tanggal</th>
                 <th>Kode Barang</th>
                 <th>Nama Barang</th>
-                <th>Stok</th>
+                <th>Stok Masuk</th>
                 <th>Deskripsi</th>
                 <th>Aksi</th>
               </tr>
             </thead>
             <tbody>
-              @foreach($barangMasuk as $item)
+              @forelse($barangMasuk as $item)
               <tr>
                 <td>{{ $item->tanggal ?? "-" }}</td>
                 <td>{{ $item->kode_barang }}</td>
@@ -36,15 +36,23 @@
                 <td>{{ $item->stok }}</td>
                 <td>{{ $item->deskripsi ?? "-" }}</td>
                 <td>
-                  <button class="btn btn-warning btn-sm editBarang" data-id="{{ $item->id }}" data-nama="{{ $item->nama_barang }}" data-kode="{{ $item->kode_barang }}" data-stok="{{ $item->stok }}" data-deskripsi="{{ $item->deskripsi }}">
+                  <!-- <button class="btn btn-warning btn-sm editBarang" data-id="{{ $item->barang_id }}" data-nama="{{ $item->nama_barang }}" data-kode="{{ $item->kode_barang }}" data-stok="{{ $item->stok }}" data-deskripsi="{{ $item->deskripsi }}">
                     ✏️ Edit
-                  </button>
-                  <button class="btn btn-danger btn-sm deleteBarang" data-id="{{ $item->id }}">
+                  </button> -->
+                  <button class="btn btn-danger btn-sm deleteBarangMasuk" data-id="{{ $item->id }}">
                     🗑️ Delete
                   </button>
                 </td>
               </tr>
-              @endforeach
+              @empty
+              <tr>
+                <td colspan="6" class="text-center">
+                  <b>Data Kosong</b>
+                </td>
+              </tr>
+              
+              @endforelse
+              
             </tbody>
           </table>
         </div>  
@@ -130,7 +138,14 @@
               <label for="deskripsi" class="form-label">Deskripsi</label>
               <textarea class="form-control" name="deskripsi" placeholder="Masukkan deskripsi barang"></textarea>
             </div>
+
+            <div class="mb-3">
+              <label for="tanggal" class="form-label">Pilih Tanggal</label>
+              <input type="date" class="form-control" name="tanggal" required>
+            </div>
+            
           </div>
+
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary">Simpan</button>
@@ -167,7 +182,8 @@
           location.reload(); // Reload tabel otomatis
         },
         error: function(xhr) {
-          toastr.error("Gagal menyimpan data!");
+          var errorMessage = xhr.responseJSON.error || "Gagal menyimpan data!";
+          toastr.error(errorMessage); 
         }
       });
     });
@@ -192,7 +208,7 @@
       let url = $(this).attr('action');
 
       $.ajax({
-        url: `/barang/update/${id}`,
+        url: `/barang-masuk/update/${id}`,
         method: 'POST',
         data: $(this).serialize(),
         success: function () {
@@ -202,8 +218,10 @@
             location.reload();
           }, 1000); // Reload halaman setelah 1 detik
         },
-        error: function () {
-          toastr.error("Gagal update barang!");
+        error: function (xhr) {
+
+          var errorMessage = xhr.responseJSON.error || "Gagal update data!";
+          toastr.error(errorMessage); 
         }
       });
     });
@@ -213,11 +231,12 @@
     
 
 
-    $('.deleteBarang').on('click', function() {
+    $('.deleteBarangMasuk').on('click', function() {
       let id = $(this).data('id');
+      console.log(`/barang-masuk/delete/${id}`)
       if (confirm("Apakah kamu yakin ingin menghapus data ini?")) {
         $.ajax({
-          url: `/barang/delete/${id}`,
+          url: `/barang-masuk/delete/${id}`,
           type: "DELETE",
           headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
           success: function(response) {
@@ -225,7 +244,9 @@
             location.reload();
           },
           error: function() {
-            toastr.error("Gagal menghapus barang!");
+            var errorMessage = xhr.responseJSON.error || "Gagal menghapus data!";
+            toastr.error(errorMessage); 
+            
           }
         });
       }

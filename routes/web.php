@@ -5,15 +5,14 @@ use App\Http\Controllers\BarangKeluar;
 use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function() {
-    return view ('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/barang', [BarangController::class, 'index'])->middleware(['auth', 'verified'])->name('barang');
 
@@ -23,6 +22,9 @@ Route::post('/barang-masuk/update/{id}', [BarangMasukController::class, 'update'
 Route::delete('/barang-masuk/delete/{id}', [BarangMasukController::class, 'destroy']);
 
 Route::get('/barang-keluar', [BarangKeluarController::class, 'index'])->middleware(['auth', 'verified'])->name('barang-keluar');
+Route::post('/barang-keluar/store', [BarangKeluarController::class, 'store']);
+Route::post('/barang-keluar/update/{id}', [BarangKeluarController::class, 'update']);
+Route::delete('/barang-keluar/delete/{id}', [BarangKeluarController::class, 'destroy']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -35,6 +37,7 @@ Route::resource('barang', BarangController::class);
 Route::post('/barang/store', [BarangController::class, 'store']);
 Route::post('/barang/update/{id}', [BarangController::class, 'update']);
 Route::delete('/barang/delete/{id}', [BarangController::class, 'destroy']);
+Route::get('/export', [BarangController::class, 'export'])->name('barang.export');
 
 
 

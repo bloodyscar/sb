@@ -1,15 +1,19 @@
 @extends('layouts.master') 
 
 @section('content')
-<div class="container-xxl flex-grow-1 container-p-y">
+<div class="container flex-grow-1 container-p-y">
   <div class="row">
 
     <div class="col-md-4">
-      <h5 class="card-header">Daftar Stok</h5>
-
+      <h3 class="">Daftar Stok</h3>
+      
               <!-- Button trigger modal -->
       <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
         + Tambah
+      </button>
+
+      <button id="exportExcel" class="btn btn-success mb-3">
+        Excel
       </button>
     </div>
     <div class="col-md-12">
@@ -27,7 +31,7 @@
               </tr>
             </thead>
             <tbody>
-              @foreach($barang as $item)
+              @forelse($barang as $item)
               <tr>
                 <td>{{ $item->kode_barang }}</td>
                 <td>{{ $item->nama_barang }}</td>
@@ -42,7 +46,13 @@
                   </button>
                 </td>
               </tr>
-              @endforeach
+              @empty
+              <tr>
+                <td colspan="6" class="text-center">
+                  <b>Data Kosong</b>
+                </td>
+              </tr>
+              @endforelse
             </tbody>
           </table>
         </div>  
@@ -74,10 +84,10 @@
               <input type="text" class="form-control" name="nama_barang" placeholder="Masukkan nama barang" required>
             </div>
   
-            <div class="mb-3">
+            <!-- <div class="mb-3">
               <label for="stok" class="form-label">Stok</label>
               <input type="number" class="form-control" name="stok" placeholder="Masukkan jumlah stok" required>
-            </div>
+            </div> -->
   
             <div class="mb-3">
               <label for="deskripsi" class="form-label">Deskripsi</label>
@@ -117,10 +127,8 @@
               <input type="text" class="form-control" name="nama_barang" placeholder="Masukkan nama barang" required>
             </div>
   
-            <div class="mb-3">
-              <label for="stok" class="form-label">Stok</label>
-              <input type="number" class="form-control" name="stok" placeholder="Masukkan jumlah stok" required>
-            </div>
+            
+
   
             <div class="mb-3">
               <label for="deskripsi" class="form-label">Deskripsi</label>
@@ -141,6 +149,8 @@
 
 
 @section('script')
+  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+
   <!-- Toastr CSS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -163,7 +173,8 @@
           location.reload(); // Reload tabel otomatis
         },
         error: function(xhr) {
-          toastr.error("Gagal menyimpan data!");
+          var errorMessage = xhr.responseJSON.error || "Gagal menyimpan data!";
+          toastr.error(errorMessage); 
         }
       });
     });
@@ -199,15 +210,13 @@
           }, 1000); // Reload halaman setelah 1 detik
         },
         error: function () {
-          toastr.error("Gagal update barang!");
+          var errorMessage = xhr.responseJSON.error || "Gagal update data!";
+          toastr.error(errorMessage); 
         }
       });
     });
 
     });
-
-    
-
 
     $('.deleteBarang').on('click', function() {
       let id = $(this).data('id');
@@ -221,12 +230,32 @@
             location.reload();
           },
           error: function() {
-            toastr.error("Gagal menghapus barang!");
+            var errorMessage = xhr.responseJSON.error || "Gagal menghapus data!";
+            toastr.error(errorMessage); 
           }
         });
       }
     });
 
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+          "columnDefs": [
+            { "className": "text-center", "targets": "_all" } // Apply center to all columns
+          ],
+          layout: { 
+              topStart: {
+                  buttons: ['excel']
+              }
+          }
+        });
+      });
+
+      
+      $('#exportExcel').on('click', function(e) {
+        e.preventDefault();
+
+        window.location.href = "/export";
+      });
 
   </script>
 @endsection
