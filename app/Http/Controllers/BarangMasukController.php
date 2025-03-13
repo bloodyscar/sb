@@ -85,20 +85,20 @@ class BarangMasukController extends Controller
         ]);
 
         $barang = DB::select('SELECT * FROM barangs WHERE kode_barang = ?', [$request->kode_barang]);
-        $barangMasuk = DB::select('SELECT * FROM barang_masuks WHERE barang_id = ?', [$barang[0]->id]);
+        $barangMasuk = DB::select('SELECT * FROM barang_masuks WHERE id = ?', [$request->id]);
 
         $newStok = $barang[0]->stok - $barangMasuk[0]->stok;
 
         // Update the stock in the database
         $updateStok = DB::update('UPDATE barangs SET stok = ? WHERE kode_barang = ?', [$newStok, $request->kode_barang]);
 
-
         $newStokMasuk = $request->stok;
-        $updateStokMasuk = DB::update('UPDATE barang_masuks SET stok = ?, deskripsi = ? WHERE barang_id = ?', [$newStokMasuk, $request->deskripsi, $barang[0]->id]);
+
+        $updateStokMasuk = DB::update('UPDATE barang_masuks SET stok = ?, deskripsi = ? WHERE id = ?', [$newStokMasuk, $request->deskripsi, $request->id]);
         
 
         $barang = DB::select('SELECT * FROM barangs WHERE kode_barang = ?', [$request->kode_barang]);
-        $barangMasuk = DB::select('SELECT * FROM barang_masuks WHERE barang_id = ?', [$barang[0]->id]);
+        $barangMasuk = DB::select('SELECT * FROM barang_masuks WHERE id = ?', [$request->id]);
 
         $newStok = $barang[0]->stok + $barangMasuk[0]->stok;
 

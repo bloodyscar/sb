@@ -36,9 +36,9 @@
                 <td>{{ $item->stok }}</td>
                 <td>{{ $item->deskripsi ?? "-" }}</td>
                 <td>
-                  <!-- <button class="btn btn-warning btn-sm editBarang" data-id="{{ $item->barang_id }}" data-nama="{{ $item->nama_barang }}" data-kode="{{ $item->kode_barang }}" data-stok="{{ $item->stok }}" data-deskripsi="{{ $item->deskripsi }}">
+                  <button class="btn btn-warning btn-sm editBarang" data-id="{{ $item->id }}" data-nama="{{ $item->nama_barang }}" data-kode="{{ $item->kode_barang }}" data-stok="{{ $item->stok }}" data-deskripsi="{{ $item->deskripsi }}">
                     ✏️ Edit
-                  </button> -->
+                  </button>
                   <button class="btn btn-danger btn-sm deleteBarangMasuk" data-id="{{ $item->id }}">
                     🗑️ Delete
                   </button>
@@ -61,7 +61,6 @@
   </div>
 </div>
 
-{{-- Modal Edit  --}}
 <div class="modal fade" id="exampleModalEdit" tabindex="-1" aria-labelledby="exampleModalEditLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -75,13 +74,17 @@
 
           <div class="modal-body">
             <div class="mb-3">
+                <input type="text" class="form-control" name="id" hidden>
+              </div>
+
+            <div class="mb-3">
               <label for="kode_barang" class="form-label">Kode Barang</label>
-              <input type="text" class="form-control" name="kode_barang" placeholder="Masukkan kode barang" required style="text-transform: uppercase;">
+              <input type="text" class="form-control" name="kode_barang" placeholder="Masukkan kode barang" style="text-transform: uppercase;" readonly>
             </div>
   
             <div class="mb-3">
               <label for="nama_barang" class="form-label">Nama Barang</label>
-              <input type="text" class="form-control" name="nama_barang" placeholder="Masukkan nama barang" required>
+              <input type="text" class="form-control" name="nama_barang" placeholder="Masukkan nama barang" readonly>
             </div>
   
             <div class="mb-3">
@@ -198,33 +201,34 @@
       console.log(id)
 
       $('#exampleModalEdit').modal('show');
+      $('input[name="id"]').val(id);
       $('input[name="kode_barang"]').val(kode);
       $('input[name="nama_barang"]').val(nama);
       $('input[name="stok"]').val(stok);
       $('textarea[name="deskripsi"]').val(deskripsi);
 
       $('#formBarangUpdate').submit(function (e) {
-      e.preventDefault();
-      let url = $(this).attr('action');
+        e.preventDefault();
+        let url = $(this).attr('action');
 
-      $.ajax({
-        url: `/barang-masuk/update/${id}`,
-        method: 'POST',
-        data: $(this).serialize(),
-        success: function () {
-          toastr.success("Barang berhasil diupdate!");
-          $('#exampleModalEdit').modal('hide');
-          setTimeout(() => {
-            location.reload();
-          }, 1000); // Reload halaman setelah 1 detik
-        },
-        error: function (xhr) {
+        $.ajax({
+          url: `/barang-masuk/update/${id}`,
+          method: 'POST',
+          data: $(this).serialize(),
+          success: function () {
+            toastr.success("Barang berhasil diupdate!");
+            $('#exampleModalEdit').modal('hide');
+            setTimeout(() => {
+              location.reload();
+            }, 1000); // Reload halaman setelah 1 detik
+          },
+          error: function (xhr) {
 
-          var errorMessage = xhr.responseJSON.error || "Gagal update data!";
-          toastr.error(errorMessage); 
-        }
+            var errorMessage = xhr.responseJSON.error || "Gagal update data!";
+            toastr.error(errorMessage); 
+          }
+        });
       });
-    });
 
     });
 

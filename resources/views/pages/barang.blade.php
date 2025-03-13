@@ -195,25 +195,25 @@
       $('textarea[name="deskripsi"]').val(deskripsi);
 
       $('#formBarangUpdate').submit(function (e) {
-      e.preventDefault();
-      let url = $(this).attr('action');
+        e.preventDefault();
+        let url = $(this).attr('action');
 
-      $.ajax({
-        url: `/barang/update/${id}`,
-        method: 'POST',
-        data: $(this).serialize(),
-        success: function () {
-          toastr.success("Barang berhasil diupdate!");
-          $('#exampleModalEdit').modal('hide');
-          setTimeout(() => {
-            location.reload();
-          }, 1000); // Reload halaman setelah 1 detik
-        },
-        error: function () {
-          var errorMessage = xhr.responseJSON.error || "Gagal update data!";
-          toastr.error(errorMessage); 
-        }
-      });
+        $.ajax({
+          url: `/barang/update/${id}`,
+          method: 'POST',
+          data: $(this).serialize(),
+          success: function () {
+            toastr.success("Barang berhasil diupdate!");
+            $('#exampleModalEdit').modal('hide');
+            setTimeout(() => {
+              location.reload();
+            }, 1000); // Reload halaman setelah 1 detik
+          },
+          error: function (xhr) {
+            var errorMessage = xhr.responseJSON.error || "Gagal update data!";
+            toastr.error(errorMessage); 
+          }
+        });
     });
 
     });

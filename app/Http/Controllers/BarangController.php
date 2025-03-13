@@ -6,6 +6,7 @@ use App\Models\Barang;
 use Illuminate\Http\Request;
 use App\Exports\BarangExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Validation\Rule;
 
 class BarangController extends Controller
 {
@@ -70,15 +71,23 @@ class BarangController extends Controller
         */
         public function update(Request $request, string $id)
         {
-            $request->validate([
-                'stok' => 'required|numeric|min:0',  // Ensure stok is a number and greater than or equal to 0
-            ]);
+
+            
             
             $barang = Barang::findOrFail($id);
+
+            $request->validate([
+                'kode_barang' => [
+                    'required',
+                    Rule::unique('barangs')->ignore($barang->kode_barang), 
+                ],
+                'nama_barang' => 'required|string|max:255',
+            ]);
+           
+            
             $barang->update([
                 'kode_barang'         => $request->kode_barang,
                 'nama_barang'   => $request->nama_barang,
-                'stok'         => $request->stok,
                 'deskripsi'         => $request->deskripsi
             ]);
 

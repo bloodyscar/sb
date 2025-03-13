@@ -190,7 +190,7 @@ class BarangKeluarController extends Controller
                 $sisa -= $stokTambah;
             }
 
-            // $barangKeluar->delete();
+            $barangKeluar->delete();
 
             return response()->json(['message' => 'Barang keluar berhasil dihapus dan stok telah dikembalikan']);
         } catch (\Exception $e) {
