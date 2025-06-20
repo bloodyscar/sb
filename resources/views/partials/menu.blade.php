@@ -109,21 +109,24 @@
       <li class="menu-item active {{ Route::is('profile') ? 'active' : '' }}">
         <a href="/profile" class="menu-link">
           <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-          <div data-i18n="Analytics">Edit Profile</div>
+          <div data-i18n="Analytics">Profile</div>
         </a>
       </li>
 
       <li class="menu-item">
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
 
-            <x-dropdown-link :href="route('logout')"
-                    onclick="event.preventDefault();
-                            this.closest('form').submit();">
-                <i class="menu-icon tf-icons bx bx-log-out"></i>
-                <span class="ms-1">{{ __('Log Out') }}</span>
-            </x-dropdown-link>
-        </form>
-      </li>
+        <x-dropdown-link :href="route('logout')"
+            onclick="event.preventDefault();
+                     if (confirm('Apakah Anda yakin ingin logout?')) {
+                         this.closest('form').submit();
+                     }">
+            <i class="menu-icon tf-icons bx bx-log-out"></i>
+            <span class="ms-1">{{ __('Log Out') }}</span>
+        </x-dropdown-link>
+    </form>
+</li>
+
     </ul>
   </aside>
