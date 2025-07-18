@@ -14,7 +14,7 @@ class BarangMasukController extends Controller
      */
     public function index()
     {
-        $barangMasuk = DB::select('SELECT bm.id, bm.barang_id, bm.tanggal, b.kode_barang, b.nama_barang, bm.stok, bm.deskripsi FROM barang_masuks bm INNER JOIN barangs b ON b.id = bm.barang_id');
+        $barangMasuk = DB::select('SELECT bm.id, bm.barang_id, bm.tanggal, b.kode_barang, b.nama_barang, b.harga, bm.stok, bm.deskripsi FROM barang_masuks bm INNER JOIN barangs b ON b.id = bm.barang_id');
         $barang = Barang::all();
         return view('pages.barangmasuk', compact('barangMasuk', 'barang'));
     }
@@ -34,6 +34,7 @@ class BarangMasukController extends Controller
     {
         $request->validate([
             'stok' => 'required|numeric|min:1',  // Ensure stok is a number and greater than or equal to 0
+            'harga' => 'required|numeric|min:1',  // Ensure stok is a number and greater than or equal to 0
             'tanggal' => 'required|date',  //
         ]);
         

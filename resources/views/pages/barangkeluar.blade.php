@@ -22,6 +22,7 @@
                 <th>Tanggal</th>
                 <th>Kode Barang</th>
                 <th>Nama Barang</th>
+                <th>Harga Jual</th>
                 <th>Stok Keluar</th>
                 <th>Deskripsi</th>
                 <th>Aksi</th>
@@ -33,6 +34,7 @@
                 <td>{{ $item->tanggal ?? "-" }}</td>
                 <td>{{ $item->kode_barang }}</td>
                 <td>{{ $item->nama_barang }}</td>
+                <td>{{ $item->harga }}</td>
                 <td>{{ $item->stok }}</td>
                 <td>{{ $item->deskripsi ?? "-" }}</td>
                 <td>
@@ -126,6 +128,11 @@
 
   
   
+            <div class="mb-3">
+              <label for="harga" class="form-label">Harga Jual</label>
+              <input type="number" class="form-control" name="harga" placeholder="Masukkan harga jual" required>
+            </div>
+
             <div class="mb-3">
               <label for="stok" class="form-label">Stok Keluar</label>
               <input type="number" class="form-control" name="stok" placeholder="Masukkan stok keluar" required>

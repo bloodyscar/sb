@@ -22,6 +22,7 @@
                 <th>Tanggal</th>
                 <th>Kode Barang</th>
                 <th>Nama Barang</th>
+                <th>Harga Beli</th>
                 <th>Stok Masuk</th>
                 <th>Deskripsi</th>
                 <th>Aksi</th>
@@ -33,10 +34,11 @@
                 <td>{{ $item->tanggal ?? "-" }}</td>
                 <td>{{ $item->kode_barang }}</td>
                 <td>{{ $item->nama_barang }}</td>
+                <td>{{ $item->harga }}</td>
                 <td>{{ $item->stok }}</td>
                 <td>{{ $item->deskripsi ?? "-" }}</td>
                 <td>
-                  <button class="btn btn-warning btn-sm editBarang" data-id="{{ $item->id }}" data-nama="{{ $item->nama_barang }}" data-kode="{{ $item->kode_barang }}" data-stok="{{ $item->stok }}" data-deskripsi="{{ $item->deskripsi }}">
+                  <button class="btn btn-warning btn-sm editBarang" data-id="{{ $item->id }}" data-nama="{{ $item->nama_barang }}" data-harga="{{ $item->harga }}" data-kode="{{ $item->kode_barang }}" data-stok="{{ $item->stok }}" data-deskripsi="{{ $item->deskripsi }}">
                     ✏️ Edit
                   </button>
                   <button class="btn btn-danger btn-sm deleteBarangMasuk" data-id="{{ $item->id }}">
@@ -86,6 +88,11 @@
               <label for="nama_barang" class="form-label">Nama Barang</label>
               <input type="text" class="form-control" name="nama_barang" placeholder="Masukkan nama barang" readonly>
             </div>
+
+            <div class="mb-3">
+              <label for="harga" class="form-label">Harga</label>
+              <input type="text" class="form-control" name="harga" placeholder="Masukkan harga" >
+            </div>
   
             <div class="mb-3">
               <label for="stok" class="form-label">Stok</label>
@@ -131,6 +138,11 @@
               </select>
             </div>
   
+            <div class="mb-3">
+              <label for="harga" class="form-label">Harga</label>
+              <input type="number" class="form-control" name="harga" placeholder="Masukkan harga`" required>
+            </div>
+
   
             <div class="mb-3">
               <label for="stok" class="form-label">Stok</label>
@@ -195,6 +207,7 @@
       let id = $(this).data('id');
       let kode = $(this).data('kode');
       let nama = $(this).data('nama');
+      let harga = $(this).data('harga');
       let stok = $(this).data('stok');
       let deskripsi = $(this).data('deskripsi');
 
@@ -204,6 +217,7 @@
       $('input[name="id"]').val(id);
       $('input[name="kode_barang"]').val(kode);
       $('input[name="nama_barang"]').val(nama);
+      $('input[name="harga"]').val(harga);
       $('input[name="stok"]').val(stok);
       $('textarea[name="deskripsi"]').val(deskripsi);
 

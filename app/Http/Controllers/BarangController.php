@@ -40,6 +40,7 @@ class BarangController extends Controller
         $request->validate([
             'kode_barang' => 'required',
             'nama_barang' => 'required',
+            'harga' => 'required|numeric',
         ]);
     
         $request->merge([

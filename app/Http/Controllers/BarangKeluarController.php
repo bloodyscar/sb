@@ -15,7 +15,7 @@ class BarangKeluarController extends Controller
      */
     public function index()
     {
-        $barangKeluar = DB::select('SELECT bm.id, bm.barang_id, bm.tanggal, b.kode_barang, b.nama_barang, bm.stok, bm.deskripsi FROM barang_keluars bm INNER JOIN barangs b ON b.id = bm.barang_id');
+        $barangKeluar = DB::select('SELECT bm.id, bm.barang_id, bm.tanggal, b.kode_barang, b.nama_barang, b.harga, bm.stok, bm.deskripsi FROM barang_keluars bm INNER JOIN barangs b ON b.id = bm.barang_id');
         $barang = Barang::all();
         return view('pages.barangkeluar', compact('barangKeluar', 'barang'));
     }
